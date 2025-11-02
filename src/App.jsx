@@ -1,28 +1,34 @@
-import { useState } from 'react'
+import React from 'react';
+import Hero from './components/Hero';
+import Showreel from './components/Showreel';
+import Projects from './components/Projects';
+import ClientsMarquee from './components/ClientsMarquee';
+import FooterCTA from './components/FooterCTA';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
+    <div className="min-h-screen w-full bg-black text-white font-sans">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-900/80 bg-black/50 backdrop-blur">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+          <pre className="font-mono text-xs tracking-[0.35em] text-orange-400">V F X Y</pre>
+          <nav className="hidden sm:flex items-center gap-6 text-xs font-mono text-neutral-400">
+            <a href="#reel" className="hover:text-orange-400 transition-colors">REEL</a>
+            <a href="#work" className="hover:text-orange-400 transition-colors">WORK</a>
+            <a href="#contact" className="hover:text-orange-400 transition-colors">CONTACT</a>
+          </nav>
         </div>
-      </div>
+      </header>
+
+      <main className="w-full">
+        <Hero />
+        <Showreel />
+        <ClientsMarquee />
+        <Projects />
+      </main>
+
+      <FooterCTA />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
