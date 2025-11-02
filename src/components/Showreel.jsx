@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const sources = [
   'https://videos.pexels.com/video-files/854332/854332-sd_640_360_25fps.mp4',
@@ -7,9 +11,30 @@ const sources = [
 ];
 
 const Showreel = () => {
+  const wrapRef = useRef(null);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: wrapRef.current,
+          start: 'top 80%',
+          end: 'top 20%',
+          scrub: true,
+        }
+      });
+
+      tl.fromTo(wrapRef.current, { opacity: 0, y: 40 }, { opacity: 1, y: 0, ease: 'power2.out' })
+        .fromTo(videoRef.current, { scale: 1.05 }, { scale: 1, ease: 'none' }, 0);
+    }, wrapRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section id="reel" className="relative w-full bg-black text-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+      <div ref={wrapRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
         <div className="mb-8">
           <pre className="font-mono text-sm text-neutral-400 whitespace-pre">
 {`// VFXY — SHOWREEL 2025
@@ -25,7 +50,8 @@ const Showreel = () => {
           className="relative aspect-video w-full overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900"
         >
           <video
-            className="h-full w-full object-cover"
+            ref={videoRef}
+            className="h-full w-full object-cover will-change-transform"
             playsInline
             muted
             loop

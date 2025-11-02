@@ -1,5 +1,6 @@
 import React from 'react';
 import Hero from './components/Hero';
+import AsciiLogo from './components/AsciiLogo';
 import Showreel from './components/Showreel';
 import Projects from './components/Projects';
 import ClientsMarquee from './components/ClientsMarquee';
@@ -21,6 +22,7 @@ function App() {
 
       <main className="w-full">
         <Hero />
+        <AsciiLogo />
         <Showreel />
         <ClientsMarquee />
         <Projects />

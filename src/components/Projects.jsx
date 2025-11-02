@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
@@ -21,8 +25,29 @@ const projects = [
 ];
 
 const Projects = () => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray('.project-card');
+      gsap.from(cards, {
+        opacity: 0,
+        y: 32,
+        stagger: 0.08,
+        duration: 0.7,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%'
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="work" className="relative w-full bg-black text-white">
+    <section ref={sectionRef} id="work" className="relative w-full bg-black text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-6 flex items-end justify-between">
           <pre className="font-mono text-sm text-neutral-400 whitespace-pre">{`// SELECTED WORK`}</pre>
@@ -37,7 +62,7 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, delay: i * 0.05 }}
-              className="group relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900"
+              className="project-card group relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900"
             >
               <div className="relative aspect-[16/9] w-full overflow-hidden">
                 <video
